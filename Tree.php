@@ -43,6 +43,7 @@ class Tree
     /**
      * Конструктор. Собирает дерево
      *
+     * @param array<Item> $items
      */
     public function __construct(array $items)
     {
@@ -60,9 +61,9 @@ class Tree
     }
 
     /**
-     * Собирает поддерево для данной категории
+     * Собирает поддерево для данного элемента
      *
-     * @param stdClass $section
+     * @param Item $item
      * @return void
      */
     protected function getSubTree(Item $item)
@@ -95,7 +96,7 @@ class Tree
     /**
      * Возвращает полный массив элементов
      *
-     * @return array
+     * @return array<Item>
      */
     public function getItems(): array
     {
@@ -158,8 +159,8 @@ class Tree
     public function getChildren(Item $item): array
     {
         $search = $this->getChildrenHashes($item);
-        $selectedSections = $this->getItemsByIds(array_keys($search));
-        return $selectedSections;
+        $selectedItems = $this->getItemsByIds(array_keys($search));
+        return $selectedItems;
     }
 
     /**
@@ -177,21 +178,21 @@ class Tree
     /**
      * Возвращает нижележащие элементы для данного (дочерние и ниже)
      *
-     * @param stdClass $section Целевой элемент
+     * @param Item $item Целевой элемент
      * @return array<Item>
      */
     public function getDescendants(Item $item): array
     {
         $search = $this->getDescendantHashes($item);
         $keys = array_keys($search);
-        $selectedSections = $this->getItemsByIds($keys);
-        return $selectedSections;
+        $selectedItems = $this->getItemsByIds($keys);
+        return $selectedItems;
     }
 
     /**
      * Возвращает количество нижележащих элементов для данного
      *
-     * @param stdClass $section Целевой элемент
+     * @param Item $item Целевой элемент
      * @return integer
      */
     public function getDescendantsCount(Item $item): int
@@ -216,7 +217,7 @@ class Tree
     /**
      * Отвечает на вопрос, есть ли потомки у данного элемента
      *
-     * @param stdClass $section Целевой элемент
+     * @param Item $item Целевой элемент
      * @return boolean
      */
     public function hasDescendants(Item $item): bool
@@ -252,7 +253,7 @@ class Tree
     /**
      * Возвращает потомков того же родителя (братьев), включая и сам элемент
      *
-     * @param stdClass $section Целевой элемент
+     * @param Item $item Целевой элемент
      * @return array<Item>
      */
     public function getSiblings(Item $item): array
